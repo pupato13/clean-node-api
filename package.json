@@ -9,5 +9,8 @@
   "keywords": [],
   "repository": "https://github.com/pupato13/clean-node-api.git",
   "author": "Diego Pupato <pupato.diego@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.0.0"
+  }
 }
