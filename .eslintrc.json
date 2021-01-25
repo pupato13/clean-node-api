@@ -1,0 +1,19 @@
+{
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "extends": [
+        "standard-with-typescript",
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
+    ],
+    "plugins": ["@typescript-eslint", "prettier"],
+    "rules": {
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "linebreak-style": ["error", "unix"],
+        "semi": "off",
+        "@typescript-eslint/semi": ["error"],
+        "comma-dangle": ["error", "only-multiline"]
+    }
+}
