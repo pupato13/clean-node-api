@@ -4,7 +4,8 @@
   "description": "Clean Architecture using Node + Typescript",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:staged": "jest"
   },
   "keywords": [],
   "repository": "https://github.com/pupato13/clean-node-api.git",
