@@ -1,42 +1,40 @@
 {
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "extends": [
-    "standard-with-typescript",
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "prettier"],
-  "rules": {
-    "@typescript-eslint/strict-boolean-expressions": "off",
-    "indent": "off",
-    // "indent": ["error", 4, { "SwitchCase": 1 }],
-    "@typescript-eslint/indent": [
-      "error",
-      4,
-      {
-        "ignoredNodes": [
-          "ArrowFunctionExpression[params]",
-          "ArrowFunctionExpression[params] TSPropertySignature"
-        ]
-      }
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "extends": [
+        "standard-with-typescript",
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
     ],
-    // "@typescript-eslint/indent": ["error"],
-    "linebreak-style": ["error", "unix"],
-    "semi": "off",
-    "@typescript-eslint/semi": "off",
-    "comma-dangle": ["error", "only-multiline"],
-    "@typescript-eslint/no-explicit-any": "off",
-    "quotes": ["error", "double"],
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
-      {
-        "allowExpressions": true
-      }
-    ]
-  }
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier"],
+    "rules": {
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "indent": "off",
+        "@typescript-eslint/indent": [
+            "error",
+            4,
+            {
+                "ignoredNodes": [
+                    "ArrowFunctionExpression[params]",
+                    "ArrowFunctionExpression[params] TSPropertySignature"
+                ]
+            }
+        ],
+        "linebreak-style": ["error", "unix"],
+        "semi": "off",
+        "@typescript-eslint/semi": "off",
+        "comma-dangle": ["error", "only-multiline"],
+        "@typescript-eslint/no-explicit-any": "off",
+        "quotes": ["error", "double"],
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/explicit-function-return-type": [
+            "error",
+            {
+                "allowExpressions": true
+            }
+        ]
+    }
 }
