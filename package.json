@@ -4,8 +4,8 @@
   "description": "Clean Architecture using Node + Typescript",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:staged": "jest"
+    "test": "jest --passWithNoTests",
+    "test:staged": "jest --passWithNoTests"
   },
   "keywords": [],
   "repository": "https://github.com/pupato13/clean-node-api.git",
@@ -19,6 +19,7 @@
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "2",
     "eslint-plugin-node": "11",
+    "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-promise": "4",
     "eslint-plugin-standard": "^5.0.0",
     "git-commit-msg-linter": "^3.0.0",
