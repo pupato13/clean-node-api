@@ -10,6 +10,7 @@ module.exports = {
     ],
     coveragePathIgnorePatterns: [
         "<rootDir>/src/presentation/controllers/signup/signup-protocols.ts",
+        "<rootDir>/src/data/usecases/add-account/db-add-account-protocols.ts",
     ],
     coverageDirectory: "coverage",
     testEnvironment: "node",
