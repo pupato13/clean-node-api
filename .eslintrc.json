@@ -11,6 +11,7 @@
     "parser": "@typescript-eslint/parser",
     "plugins": ["@typescript-eslint", "prettier"],
     "rules": {
+        "prettier/prettier": "error",
         "@typescript-eslint/strict-boolean-expressions": "off",
         "indent": "off",
         "@typescript-eslint/indent": [
@@ -23,6 +24,8 @@
                 ]
             }
         ],
+        "@typescript-eslint/method-signature-style": "off",
+        // "@typescript-eslint/space-before-function-paren": "error",
         "linebreak-style": ["error", "unix"],
         "semi": "off",
         "@typescript-eslint/semi": "off",
@@ -47,5 +50,15 @@
                 }
             }
         ]
+        // "space-before-function-paren": "off"
+        // "@typescript-eslint/space-before-function-paren": ["error"]
+        // "@typescript-eslint/space-before-function-paren": [
+        //     "error",
+        //     {
+        //         "anonymous": "always",
+        //         "named": "always",
+        //         "asyncArrow": "always"
+        //     }
+        // ]
     }
 }
