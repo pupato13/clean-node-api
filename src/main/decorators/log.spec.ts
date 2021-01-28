@@ -4,6 +4,8 @@ import {
     IHttpResponse,
 } from "../../presentation/protocols";
 import { LogControllerDecorator } from "./log";
+import { serverError } from "../../presentation/helpers/http-helper";
+import { ILogErrorRepository } from "../../data/protocols/log-error-repository";
 
 const makeController = (): IController => {
     class ControllerStub implements IController {
@@ -21,18 +23,34 @@ const makeController = (): IController => {
     return new ControllerStub();
 };
 
+const makeLogErrorRepository = (): ILogErrorRepository => {
+    class ILogErrorRepositoryStub implements ILogErrorRepository {
+        async log(stack: string): Promise<void> {
+            return await new Promise(resolve => resolve());
+        }
+    }
+
+    return new ILogErrorRepositoryStub();
+};
+
 interface ISutTypes {
     sut: LogControllerDecorator;
     controllerStub: IController;
+    logErrorRepositoryStub: ILogErrorRepository;
 }
 
 const makeSut = (): ISutTypes => {
     const controllerStub = makeController();
-    const sut = new LogControllerDecorator(controllerStub);
+    const logErrorRepositoryStub = makeLogErrorRepository();
+    const sut = new LogControllerDecorator(
+        controllerStub,
+        logErrorRepositoryStub,
+    );
 
     return {
         sut,
         controllerStub,
+        logErrorRepositoryStub,
     };
 };
 
@@ -73,5 +91,31 @@ describe("Log Controller Decorator", () => {
                 name: "Pupa",
             },
         });
+    });
+
+    test("Should call LogErrorRepository with correct error if controller returns a server error", async () => {
+        const { sut, controllerStub, logErrorRepositoryStub } = makeSut();
+        const fakeError = new Error();
+        fakeError.stack = "any_stack";
+
+        const error = serverError(fakeError);
+        const logSpy = jest.spyOn(logErrorRepositoryStub, "log");
+
+        jest.spyOn(controllerStub, "handle").mockReturnValueOnce(
+            new Promise(resolve => resolve(error)),
+        );
+
+        const httpRequest = {
+            body: {
+                name: "any_name",
+                email: "any_email@mail.com",
+                password: "any_password",
+                passwordConfirmation: "any_password",
+            },
+        };
+
+        await sut.handle(httpRequest);
+
+        expect(logSpy).toHaveBeenCalledWith("any_stack");
     });
 });
