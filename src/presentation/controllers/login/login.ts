@@ -1,13 +1,14 @@
-import { MissingParamError } from "../../errors";
+import { InvalidParamError, MissingParamError } from "../../errors";
 import { badRequest } from "../../helpers/http-helper";
 import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
+import { IEmailValidator } from "../../protocols/email-validator";
 
 export class LoginController implements IController {
-    // private readonly emailValidator: IEmailValidator;
+    private readonly emailValidator: IEmailValidator;
 
-    // constructor(emailValidator: IEmailValidator) {
-    //     this.emailValidator = emailValidator;
-    // }
+    constructor(emailValidator: IEmailValidator) {
+        this.emailValidator = emailValidator;
+    }
 
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         if (!httpRequest.body.email) {
@@ -21,5 +22,9 @@ export class LoginController implements IController {
                 resolve(badRequest(new MissingParamError("password"))),
             );
         }
+
+        const { email } = httpRequest.body;
+
+        this.emailValidator.isValid(email);
     }
 }
