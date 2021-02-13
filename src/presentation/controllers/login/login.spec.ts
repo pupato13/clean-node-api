@@ -1,3 +1,8 @@
+import {
+    IHttpRequest,
+    IEmailValidator,
+    IAuthentication,
+} from "./login-protocols";
 import { LoginController } from "./login";
 import {
     badRequest,
@@ -5,9 +10,6 @@ import {
     unauthorized,
 } from "../../helpers/http-helper";
 import { InvalidParamError, MissingParamError } from "../../errors";
-import { IEmailValidator } from "../../protocols/email-validator";
-import { IHttpRequest } from "../../protocols";
-import { IAuthentication } from "../../../domain/usecases/authentication";
 
 const makeAuthentication = (): IAuthentication => {
     class AuthenticationStub implements IAuthentication {

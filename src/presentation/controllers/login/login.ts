@@ -1,12 +1,16 @@
-import { IAuthentication } from "../../../domain/usecases/authentication";
+import {
+    IController,
+    IHttpRequest,
+    IHttpResponse,
+    IEmailValidator,
+    IAuthentication,
+} from "./login-protocols";
 import { InvalidParamError, MissingParamError } from "../../errors";
 import {
     badRequest,
     serverError,
     unauthorized,
 } from "../../helpers/http-helper";
-import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
-import { IEmailValidator } from "../../protocols/email-validator";
 
 export class LoginController implements IController {
     private readonly emailValidator: IEmailValidator;
