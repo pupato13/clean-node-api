@@ -1,4 +1,9 @@
-import { IHttpRequest, IAuthentication, IValidation } from "./login-protocols";
+import {
+    IHttpRequest,
+    IAuthentication,
+    IValidation,
+    IAuthenticationModel,
+} from "./login-protocols";
 import { LoginController } from "./login";
 import {
     badRequest,
@@ -10,7 +15,7 @@ import { MissingParamError } from "../../errors";
 
 const makeAuthentication = (): IAuthentication => {
     class AuthenticationStub implements IAuthentication {
-        async auth(email: string, password: string): Promise<string> {
+        async auth(authentication: IAuthenticationModel): Promise<string> {
             return await new Promise(resolve => resolve("any_token"));
         }
     }
@@ -55,10 +60,10 @@ describe("Login Controller", () => {
         const authSpy = jest.spyOn(authenticationStub, "auth");
 
         await sut.handle(makeFakeRequest());
-        expect(authSpy).toHaveBeenCalledWith(
-            "any_email@mail.com",
-            "any_password",
-        );
+        expect(authSpy).toHaveBeenCalledWith({
+            email: "any_email@mail.com",
+            password: "any_password",
+        });
     });
 
     test("Should return 401 if invalid credentials are provided", async () => {
