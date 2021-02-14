@@ -2,54 +2,29 @@ import {
     IHttpRequest,
     IHttpResponse,
     IController,
-    IEmailValidator,
     IAddAccount,
 } from "./signup-protocols";
-import { MissingParamError, InvalidParamError } from "../../errors";
-import { badRequest, serverError, ok } from "../../helpers/http-helper";
+import { badRequest, serverError, ok } from "../../helpers/http/http-helper";
+import { IValidation } from "../../protocols/validation";
 
 export class SignUpController implements IController {
-    private readonly emailValidator: IEmailValidator;
     private readonly addAccount: IAddAccount;
+    private readonly validation: IValidation;
 
-    constructor(emailValidator: IEmailValidator, addAccount: IAddAccount) {
-        this.emailValidator = emailValidator;
+    constructor(addAccount: IAddAccount, validation: IValidation) {
         this.addAccount = addAccount;
+        this.validation = validation;
     }
 
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const requiredFields = [
-                "name",
-                "email",
-                "password",
-                "passwordConfirmation",
-            ];
+            const error = this.validation.validate(httpRequest.body);
 
-            for (const field of requiredFields) {
-                if (!httpRequest.body[field]) {
-                    return badRequest(new MissingParamError(field));
-                }
+            if (error) {
+                return badRequest(error);
             }
 
-            const {
-                name,
-                email,
-                password,
-                passwordConfirmation,
-            } = httpRequest.body;
-
-            if (password !== passwordConfirmation) {
-                return badRequest(
-                    new InvalidParamError("passwordConfirmation"),
-                );
-            }
-
-            const isValid = this.emailValidator.isValid(email);
-
-            if (!isValid) {
-                return badRequest(new InvalidParamError("email"));
-            }
+            const { name, email, password } = httpRequest.body;
 
             const account = await this.addAccount.add({
                 name,

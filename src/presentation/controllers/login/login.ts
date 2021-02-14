@@ -1,34 +1,48 @@
-import { InvalidParamError, MissingParamError } from "../../errors";
-import { badRequest } from "../../helpers/http-helper";
-import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
-import { IEmailValidator } from "../../protocols/email-validator";
+import {
+    IController,
+    IHttpRequest,
+    IHttpResponse,
+    IAuthentication,
+    IValidation,
+} from "./login-protocols";
+import {
+    badRequest,
+    ok,
+    serverError,
+    unauthorized,
+} from "../../helpers/http/http-helper";
 
 export class LoginController implements IController {
-    private readonly emailValidator: IEmailValidator;
+    private readonly authentication: IAuthentication;
+    private readonly validation: IValidation;
 
-    constructor(emailValidator: IEmailValidator) {
-        this.emailValidator = emailValidator;
+    constructor(authentication: IAuthentication, validation: IValidation) {
+        this.authentication = authentication;
+        this.validation = validation;
     }
 
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-        const { email, password } = httpRequest.body;
+        try {
+            const error = this.validation.validate(httpRequest.body);
 
-        if (!email) {
-            return await new Promise(resolve =>
-                resolve(badRequest(new MissingParamError("email"))),
-            );
-        }
+            if (error) {
+                return badRequest(error);
+            }
 
-        if (!password) {
-            return await new Promise(resolve =>
-                resolve(badRequest(new MissingParamError("password"))),
-            );
-        }
+            const { email, password } = httpRequest.body;
 
-        const isValid = this.emailValidator.isValid(email);
+            const accessToken = await this.authentication.auth({
+                email,
+                password,
+            });
 
-        if (!isValid) {
-            return badRequest(new InvalidParamError("email"));
+            if (!accessToken) {
+                return unauthorized();
+            }
+
+            return ok({ accessToken });
+        } catch (error) {
+            return serverError(error);
         }
     }
 }
