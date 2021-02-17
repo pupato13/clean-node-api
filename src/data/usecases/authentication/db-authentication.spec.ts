@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { IAccountModel } from "../../../domain/models/account";
 import { IAuthenticationModel } from "../../../domain/usecases/authentication";
-import { ILoadAccountByEmailRepository } from "../../protocols/load-account-by-email-repository";
+import { ILoadAccountByEmailRepository } from "../../protocols/db/load-account-by-email-repository";
 import { DbAuthentication } from "./db-authentication";
 
 const makeFakeAccount = (): IAccountModel => ({
