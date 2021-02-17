@@ -66,20 +66,20 @@ interface ISutTypes {
     loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository;
     hashComparerStub: IHashComparer;
     tokenGeneratorStub: ITokenGenerator;
-    updateAccessTokenRepository: IUpdateAccessTokenRepository;
+    updateAccessTokenRepositoryStub: IUpdateAccessTokenRepository;
 }
 
 const makeSut = (): ISutTypes => {
     const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
     const hashComparerStub = makeHashComparer();
     const tokenGeneratorStub = makeTokenGenerator();
-    const updateAccessTokenRepository = makeUpdateAccessTokenRepository();
+    const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository();
 
     const sut = new DbAuthentication(
         loadAccountByEmailRepositoryStub,
         hashComparerStub,
         tokenGeneratorStub,
-        updateAccessTokenRepository,
+        updateAccessTokenRepositoryStub,
     );
 
     return {
@@ -87,7 +87,7 @@ const makeSut = (): ISutTypes => {
         loadAccountByEmailRepositoryStub,
         hashComparerStub,
         tokenGeneratorStub,
-        updateAccessTokenRepository,
+        updateAccessTokenRepositoryStub,
     };
 };
 
@@ -189,11 +189,25 @@ describe("DbAuthentication UseCase", () => {
     });
 
     test("Should call UpdateAccessTokenRepository with correct values", async () => {
-        const { sut, updateAccessTokenRepository } = makeSut();
-        const updateSpy = jest.spyOn(updateAccessTokenRepository, "update");
+        const { sut, updateAccessTokenRepositoryStub } = makeSut();
+        const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, "update");
 
         await sut.auth(makeFakeAuthentication());
 
         expect(updateSpy).toHaveBeenCalledWith("any_id", "any_token");
+    });
+
+    test("Should throw if UpdateAccessTokenRepository throws", async () => {
+        const { sut, updateAccessTokenRepositoryStub } = makeSut();
+        jest.spyOn(
+            updateAccessTokenRepositoryStub,
+            "update",
+        ).mockReturnValueOnce(
+            new Promise((resolve, reject) => reject(new Error())),
+        );
+
+        const promise = sut.auth(makeFakeAuthentication());
+
+        await expect(promise).rejects.toThrow();
     });
 });
