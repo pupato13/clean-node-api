@@ -4,7 +4,9 @@
   "description": "Clean Architecture using Node + Typescript",
   "main": "index.js",
   "scripts": {
-    "start": "sucrase-node src/main/server.ts",
+    "start": "node dist/main/server.js",
+    "build": "tsc",
+    "dev": "sucrase-node src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test -- --watch -c jest-unit-config.js",
@@ -40,6 +42,7 @@
     "jest": "^26.6.3",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
     "sucrase": "^3.17.0",
     "supertest": "^6.1.3",
     "ts-jest": "^26.4.4",
