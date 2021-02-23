@@ -3,7 +3,7 @@ import {
     IHttpResponse,
     IController,
     IAddAccount,
-} from "./signup-protocols";
+} from "./signup-controller-protocols";
 import { badRequest, serverError, ok } from "../../helpers/http/http-helper";
 import { IValidation } from "../../protocols/validation";
 

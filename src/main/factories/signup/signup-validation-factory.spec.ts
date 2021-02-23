@@ -6,7 +6,7 @@ import {
 } from "../../../presentation/helpers/validators";
 import { IValidation } from "../../../presentation/protocols/validation";
 import { IEmailValidator } from "../../../presentation/protocols/email-validator";
-import { makeSignUpValidation } from "./signup-validation";
+import { makeSignUpValidation } from "./signup-validation-factory";
 
 // When someone calls ValidationComposite, it will be mocked
 // it means, it doesn't have the standard behavinour anymore.

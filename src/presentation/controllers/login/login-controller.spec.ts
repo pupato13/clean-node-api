@@ -3,8 +3,8 @@ import {
     IAuthentication,
     IValidation,
     IAuthenticationModel,
-} from "./login-protocols";
-import { LoginController } from "./login";
+} from "./login-controller-protocols";
+import { LoginController } from "./login-controller";
 import {
     badRequest,
     ok,
