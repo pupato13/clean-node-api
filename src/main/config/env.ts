@@ -2,5 +2,5 @@ export default {
     mongoUrl:
         process.env.MONGO_URL || "mongodb://localhost:27017/clean-node-api",
     port: process.env.PORT || 5050,
-    jwtSecret: process.env.JWT_SECRET || "9'RJ}2BS2yjk9>mN",
+    jwtSecret: process.env.JWT_SECRET || "5|sp{9DP5jj47<mN",
 };
